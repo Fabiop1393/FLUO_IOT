@@ -51,6 +51,8 @@ int VirtualStringSend(String data); // REST string
 
 void VirtualConnection(String);
 
+String VirtualReadAvrMsg(String data); //msg di push da avr
+
 int VirtualMacADDR(String tmp);
 
 #endif

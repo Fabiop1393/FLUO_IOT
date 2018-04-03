@@ -919,4 +919,61 @@ const char HTTP_IOT_ANALOG_TABLE[] PROGMEM      =
 const char HTTP_IOT_CLOSE[] PROGMEM      =
 "</div></div></div></body></html>";
 
+//----------------- WebSocket HTML-CSS-JAVASCRIPT----------------------//
+
+const char HTTP_WEBSOCKET_HEAD[] PROGMEM        =
+"<html> <head> <title>FluoTech</title>";
+
+const char HTTP_WEBSOCKET_STYLE[] PROGMEM       =
+"<style>\
+    #fluo {\
+        font: bold 15px arial;\
+        margin: auto;\
+        padding: 10px;\
+        text-align: left;\
+      }\
+</style>";
+
+const char HTTP_WEBSOCKET_ENDHEAD[] PROGMEM     =
+"</head>";
+
+const char HTTP_WEBSOCKET_BODY[] PROGMEM        =
+"<body>\
+<div id='fluo'>\
+  <p id = 'conn'>Mi connetto...</p>\
+  <table>\
+    <tr><td>URI: </td><td id = 'URI'></td></tr>\
+    <tr><td>Method: </td><td id = 'Method'></td></tr>\
+    <tr><td>Arguments: </td><td id = 'Arguments'></td></tr>\
+    <tr><td>AVR Messaggio: </td><td id = 'sms'></td></tr>\
+  </table>\
+</div>";
+
+const char HTTP_WEBSOCKET_INITSCRIPT[] PROGMEM  =
+"<script>var ws = new WebSocket('";
+
+const char HTTP_WEBSOCKET_SCRIPT[] PROGMEM      =
+"');\
+  ws.onopen = function(){\
+    document.body.style.backgroundColor = '#cfc';\
+    document.getElementById('conn').innerHTML = 'Connesso';\
+  };\
+   ws.onclose = function() {\
+    document.body.style.backgroundColor = null;\
+  };\
+  ws.onmessage = function(event) {\
+    var res = event.data.split(':');\
+    if(res[0] == 'URI') document.getElementById('URI').innerHTML = res[1];\
+    if(res[0] == 'Method') document.getElementById('Method').innerHTML = res[1];\
+    if(res[0] == 'Arguments') document.getElementById('Arguments').innerHTML = res[1];\
+    if(res[0] == 'sms') document.getElementById('sms').innerHTML = res[1];\
+  };\
+  ws.onerror = function(){\
+    document.getElementById('conn').innerHTML = 'Refresh della pagina';\
+  };\
+</script>";
+
+const char HTTP_WEBSOCKET_ENDBODY[] PROGMEM     =
+"</body></html>";
+
 #endif

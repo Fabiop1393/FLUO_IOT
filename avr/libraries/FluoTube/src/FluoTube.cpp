@@ -44,6 +44,10 @@ enum{
     MAC
 };
 
+struct msg{
+  String data;
+  int semMsg = 1;
+}msgAVR;
 
 FluoTubeClass::FluoTubeClass()
 {  
@@ -71,11 +75,29 @@ void FluoTubeClass::Run()
         SerialParser();
 }
 
+void FluoTubeClass::sendMsgToESP(String data){
+  
+  if(msgAVR.semMsg == 1){
+    msgAVR.semMsg = 0;
+    msgAVR.data = data;
+    Serial.println("[Fluotube:sendMsgToESP]Invio mess ad esp:"+data+"\n");
+    Virtual.println(msgAVR.data);
+  }
+}
+
 FluoTubeClass FluoTube;
 
 
 // Functions
 
+void ContentHandleACK(String data){
+  if(msgAVR.semMsg == 0){
+      Serial.println(msgAVR.semMsg);
+      Serial.println("ContentHandleACK -> "+data);
+      msgAVR.semMsg=1;
+  }
+    
+}
 int Str2int (String Str_value)
 {
   char buffer[10]; //max length is three units
@@ -604,5 +626,8 @@ void SerialParser(void) {
   }  
   else if (cmd == "sz") {  
       sizeEEPROM();
-  }  
+  }
+  else if (cmd == "ackToAVR" ) {
+      ContentHandleACK(data);
+  }
 }

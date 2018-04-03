@@ -41,6 +41,7 @@ class FluoTubeClass
 
 		void Begin();
         void Run();
+        void sendMsgToESP(String data);
 
 	private:
 
