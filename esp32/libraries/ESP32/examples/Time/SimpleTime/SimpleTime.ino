@@ -16,7 +16,8 @@ void printLocalTime()
     FluoTube.debugln("Failed to obtain time");
     return;
   }
-  FluoTube.debugln( String (&timeinfo, "%A, %B %d %Y %H:%M:%S") ); // TODO: fix it
+  strftime(buffer,80,"%A, %B %d %Y %H:%M:%S", &timeinfo);
+  FluoTube.debugln( buffer );
 }
 
 void setup()

@@ -24,7 +24,7 @@ static void notifyCallback(
     FluoTube.debug("Notify callback for characteristic: ");
     FluoTube.debug(pBLERemoteCharacteristic->getUUID().toString().c_str());
     FluoTube.debug(" of data length: ");
-    FluoTube.debugln(length);
+    FluoTube.debugln(String(length));
 }
 
 bool connectToServer(BLEAddress pAddress) {

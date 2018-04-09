@@ -15,5 +15,5 @@ void loop() {
   val = hallRead();
   // print the results to the serial monitor:
   //FluoTube.debug("sensor = ");
-  FluoTube.debugln(val);//to graph 
+  FluoTube.debugln(String(val);//to graph 
 }

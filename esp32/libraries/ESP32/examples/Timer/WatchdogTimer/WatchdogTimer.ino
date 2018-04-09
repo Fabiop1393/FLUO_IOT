@@ -1,4 +1,5 @@
 #include "esp_system.h"
+#include <Fluotube.h>
 
 const int button = 0;         //gpio to use to trigger delay
 const int wdtTimeout = 3000;  //time in ms to trigger the watchdog
@@ -10,9 +11,8 @@ void IRAM_ATTR resetModule() {
 }
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println("running setup");
+  FluoTube.setup();
+  FluoTube.debugln("running setup");
 
   pinMode(button, INPUT_PULLUP);                    //init control pin
   timer = timerBegin(0, 80, true);                  //timer 0, div 80
@@ -22,18 +22,18 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("running main loop");
+  FluoTube.debugln("running main loop");
 
   timerWrite(timer, 0); //reset timer (feed watchdog)
   long loopTime = millis();
   //while button is pressed, delay up to 3 seconds to trigger the timer
   while (!digitalRead(button)) {
-    Serial.println("button pressed");
+    FluoTube.debugln("button pressed");
     delay(500);
   }
   delay(1000); //simulate work
   loopTime = millis() - loopTime;
   
-  Serial.print("loop time is = ");
-  Serial.println(loopTime); //should be under 3000
+  FluoTube.debug("loop time is = ");
+  FluoTube.debugln(String(loopTime)); //should be under 3000
 }

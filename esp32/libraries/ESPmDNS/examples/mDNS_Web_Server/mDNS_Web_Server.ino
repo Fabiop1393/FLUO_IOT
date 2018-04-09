@@ -44,7 +44,8 @@ void setup(void)
     FluoTube.debug("Connected to ");
     FluoTube.debugln( String(ssid) );
     FluoTube.debug("IP address: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    delay(1000);
+    FluoTube.debugln( WiFi.localIP().toString() );
 
     // Set up mDNS responder:
     // - first argument is the domain name, in this example

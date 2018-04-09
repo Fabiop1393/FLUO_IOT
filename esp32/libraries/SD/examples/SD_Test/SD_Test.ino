@@ -3,22 +3,22 @@
 #include "SPI.h"
 #include <Fluotube.h>
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels);
-void createDir(fs::FS &fs, const char * path);
-void removeDir(fs::FS &fs, const char * path);
-void readFile(fs::FS &fs, const char * path);
-void writeFile(fs::FS &fs, const char * path, const char * message);
-void appendFile(fs::FS &fs, const char * path, const char * message);
-void renameFile(fs::FS &fs, const char * path1, const char * path2);
-void deleteFile(fs::FS &fs, const char * path);
+void listDire(fs::FS &fs, const char * dirname, uint8_t levels);
+void createDire(fs::FS &fs, const char * path);
+void removeDire(fs::FS &fs, const char * path);
+void readFil(fs::FS &fs, const char * path);
+void writeFil(fs::FS &fs, const char * path, const char * message);
+void appendFil(fs::FS &fs, const char * path, const char * message);
+void renameFil(fs::FS &fs, const char * path1, const char * path2);
+void deleteFil(fs::FS &fs, const char * path);
 
-SPIClass SPISD(VSPI);
+SPIClass SPISDc(VSPI);
 
 void setup(){
    
     FluoTube.setup();
 
-    if(! SD.begin(SD_CS, SPISD, 4000000, "/sd") ){
+    if(! SD.begin(SD_CS, SPISDc, 4000000, "/sd") ){
         FluoTube.debugln("Card Mount Failed");
         return;
     }
@@ -41,23 +41,30 @@ void setup(){
     }
 
     uint64_t cardSize = SD.cardSize() / (1024 * 1024);
-    FluoTube.debugln("SD Card Size: " + String(cardSize) + " MB");
+    unsigned long long1 = (unsigned long)((cardSize & 0xffff0000)>>16);
+    unsigned long long2 = (unsigned long)((cardSize & 0x0000ffff));
+    FluoTube.debugln("SD Card Size: " + String(long1, HEX)+String(long2,HEX) + " MB");
 
-    listDir(SD, "/", 0);
-    createDir(SD, "/mydir");
-    listDir(SD, "/", 0);
-    removeDir(SD, "/mydir");
-    listDir(SD, "/", 2);
-    writeFile(SD, "/hello.txt", "Hello ");
-    appendFile(SD, "/hello.txt", "World!\n");
-    readFile(SD, "/hello.txt");
-    deleteFile(SD, "/foo.txt");
-    renameFile(SD, "/hello.txt", "/foo.txt");
-    readFile(SD, "/foo.txt");
-    testFileIO(SD, "/test.txt");
+    listDire(SD, "/", 0);
+    createDire(SD, "/mydir");
+    listDire(SD, "/", 0);
+    removeDire(SD, "/mydir");
+    listDire(SD, "/", 2);
+    writeFil(SD, "/hello.txt", "Hello ");
+    appendFil(SD, "/hello.txt", "World!\n");
+    readFil(SD, "/hello.txt");
+    deleteFil(SD, "/foo.txt");
+    renameFil(SD, "/hello.txt", "/foo.txt");
+    readFil(SD, "/foo.txt");
+    testFilIO(SD, "/test.txt");
 
-    FluoTube.debugln("Total space: " + String( SD.totalBytes() / (1024 * 1024) ) + " MB");
-    FluoTube.debugln("Used space: " + String( SD.usedBytes() / (1024 * 1024) ) + " MB");
+    long1 = (unsigned long)((SD.totalBytes()/(1024 * 1024) & 0xffff0000)>>16);
+    long2 = (unsigned long)((SD.totalBytes() & 0x0000ffff));
+    FluoTube.debugln("Total space: " + String(long1, HEX)+String(long2,HEX) + " MB");
+    
+    long1 = (unsigned long)((SD.usedBytes()/(1024 * 1024) & 0xffff0000)>>16);
+    long2 = (unsigned long)((SD.usedBytes() & 0x0000ffff));
+    FluoTube.debugln("Used space: " + String(long1, HEX)+String(long2,HEX) + " MB");
 }
 
 void loop(){
@@ -66,7 +73,7 @@ void loop(){
 
 // Filesystem Function
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
+void listDire(fs::FS &fs, const char * dirname, uint8_t levels){
     FluoTube.debugln("Listing directory: " + String(dirname) );
 
     File root = fs.open(dirname);
@@ -85,7 +92,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
             FluoTube.debug("  DIR : ");
             FluoTube.debugln( String(file.name()) );
             if(levels){
-                listDir(fs, file.name(), levels -1);
+                listDire(fs, file.name(), levels -1);
             }
         } else {
             FluoTube.debug("  FILE: ");
@@ -97,7 +104,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     }
 }
 
-void createDir(fs::FS &fs, const char * path){
+void createDire(fs::FS &fs, const char * path){
     FluoTube.debugln("Creating Dir: " + String(path) );
     if(fs.mkdir(path)){
         FluoTube.debugln("Dir created");
@@ -106,8 +113,8 @@ void createDir(fs::FS &fs, const char * path){
     }
 }
 
-void removeDir(fs::FS &fs, const char * path){
-    FluoTube.debugln("Removing Dir: %s\n", path);
+void removeDire(fs::FS &fs, const char * path){
+    FluoTube.debugln("Removing Dir: " + String(path));
     if(fs.rmdir(path)){
         FluoTube.debugln("Dir removed");
     } else {
@@ -115,7 +122,7 @@ void removeDir(fs::FS &fs, const char * path){
     }
 }
 
-void readFile(fs::FS &fs, const char * path){
+void readFil(fs::FS &fs, const char * path){
     FluoTube.debugln("Reading file: " + String(path) );
 
     File file = fs.open(path);
@@ -131,7 +138,7 @@ void readFile(fs::FS &fs, const char * path){
     file.close();
 }
 
-void writeFile(fs::FS &fs, const char * path, const char * message){
+void writeFil(fs::FS &fs, const char * path, const char * message){
     FluoTube.debugln("Writing file: " + String(path) );
 
     File file = fs.open(path, FILE_WRITE);
@@ -147,7 +154,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     file.close();
 }
 
-void appendFile(fs::FS &fs, const char * path, const char * message){
+void appendFil(fs::FS &fs, const char * path, const char * message){
     FluoTube.debugln("Appending to file: " + String(path) );
 
     File file = fs.open(path, FILE_APPEND);
@@ -163,7 +170,7 @@ void appendFile(fs::FS &fs, const char * path, const char * message){
     file.close();
 }
 
-void renameFile(fs::FS &fs, const char * path1, const char * path2){
+void renameFil(fs::FS &fs, const char * path1, const char * path2){
     FluoTube.debugln("Renaming file from " + String(path1) + " to " + String(path2));
     if (fs.rename(path1, path2)) {
         FluoTube.debugln("File renamed");
@@ -172,7 +179,7 @@ void renameFile(fs::FS &fs, const char * path1, const char * path2){
     }
 }
 
-void deleteFile(fs::FS &fs, const char * path){
+void deleteFil(fs::FS &fs, const char * path){
     FluoTube.debugln("Deleting file: " + String(path) );
     if(fs.remove(path)){
         FluoTube.debugln("File deleted");
@@ -181,7 +188,7 @@ void deleteFile(fs::FS &fs, const char * path){
     }
 }
 
-void testFileIO(fs::FS &fs, const char * path){
+void testFilIO(fs::FS &fs, const char * path){
     File file = fs.open(path);
     static uint8_t buf[512];
     size_t len = 0;

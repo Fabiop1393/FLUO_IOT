@@ -10,18 +10,18 @@ const char* ssid     = "your-ssid";
 const char* password = "your-password";
 
 
-void WiFiEvent(WiFiEvent_t event)
+void WiFiEvents(WiFiEvent_t event)
 {
-    Serial.println("[WiFi-event] event: " + String(event) );
+    FluoTube.debugln("[WiFi-event] event: " + String(event) );
 
     switch(event) {
     case SYSTEM_EVENT_STA_GOT_IP:
-        Serial.println("WiFi connected");
-        Serial.println("IP address: ");
-        Serial.println( String(WiFi.localIP()) );
+        FluoTube.debugln("WiFi connected");
+        FluoTube.debugln("IP address: ");
+        FluoTube.debugln(  WiFi.localIP().toString() );
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
-        Serial.println("WiFi lost connection");
+        FluoTube.debugln("WiFi lost connection");
         break;
     }
 }
@@ -35,10 +35,10 @@ void setup()
 
     delay(1000);
 
-    WiFi.onEvent(WiFiEvent);
+    WiFi.onEvent(WiFiEvents);
     WiFi.begin(ssid, password);
 
-    Serial.println("Wait for WiFi");
+    FluoTube.debugln("Wait for WiFi");
 }
 
 void loop()  {}

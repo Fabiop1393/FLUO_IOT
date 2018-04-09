@@ -78,7 +78,7 @@ void updateFromFS(fs::FS &fs) {
       FluoTube.debugln("Could not load update.bin from sd root");
    }
 }
-
+SPIClass SPISDc(VSPI);
 void setup() {
    uint8_t cardType;
 
@@ -89,7 +89,7 @@ void setup() {
    // FluoTube.debugln("Update successfull");
 
    //first init and check SD card
-   if ( !SD.begin(SD_CS, SPISD, 4000000, "/sd") ) {
+   if ( !SD.begin(SD_CS, SPISDc, 4000000, "/sd") ) {
       rebootEspWithReason("Card Mount Failed");
    }
 

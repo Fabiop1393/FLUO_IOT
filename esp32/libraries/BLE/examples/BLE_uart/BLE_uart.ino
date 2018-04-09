@@ -57,7 +57,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         for (int i = 0; i < rxValue.length(); i++)
           FluoTube.debug( String(rxValue[i]) );
 
-        FluoTube.debugln();
+        FluoTube.debugln("");
         FluoTube.debugln("*********");
       }
     }

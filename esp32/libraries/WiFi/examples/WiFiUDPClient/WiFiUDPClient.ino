@@ -48,7 +48,7 @@ void connectToWiFi(const char * ssid, const char * pwd){
   // delete old config
   WiFi.disconnect(true);
   //register event handler
-  WiFi.onEvent(WiFiEvent);
+  WiFi.onEvent(WiFiEvents);
   
   //Initiate connection
   WiFi.begin(ssid, pwd);
@@ -57,12 +57,12 @@ void connectToWiFi(const char * ssid, const char * pwd){
 }
 
 //wifi event handler
-void WiFiEvent(WiFiEvent_t event){
+void WiFiEvents(WiFiEvent_t event){
     switch(event) {
       case SYSTEM_EVENT_STA_GOT_IP:
           //When connected set 
           FluoTube.debug("WiFi connected! IP address: ");
-          FluoTube.debugln( String(WiFi.localIP()) );  
+          FluoTube.debugln( WiFi.localIP().toString() );  
           //initializes the UDP state
           //This initializes the transfer buffer
           udp.begin(WiFi.localIP(),udpPort);

@@ -41,7 +41,7 @@ void setup()
   FluoTube.debugln("WiFi connected");
 
   FluoTube.debug("IP address: ");
-  FluoTube.debugln( String(WiFi.localIP()) );
+  FluoTube.debugln( WiFi.localIP().toString() );
 
   FluoTube.debug("ESP Mac Address: "); 
   FluoTube.debugln( String(WiFi.macAddress()) );
@@ -93,7 +93,7 @@ void loop()
     FluoTube.debug( String(line) );
   }
 
-  FluoTube.debugln();
+  FluoTube.debugln("");
   FluoTube.debugln("closing connection");
 }
 

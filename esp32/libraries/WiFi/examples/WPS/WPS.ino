@@ -37,7 +37,7 @@ String wpspin2string(uint8_t a[]){
   return (String)wps_pin;
 }
 
-void WiFiEvent(WiFiEvent_t event, system_event_info_t info){
+void WiFiEvents(WiFiEvent_t event, system_event_info_t info){
   switch(event){
     case SYSTEM_EVENT_STA_START:
     FluoTube.debugln("Station Mode Started");
@@ -45,7 +45,7 @@ void WiFiEvent(WiFiEvent_t event, system_event_info_t info){
     case SYSTEM_EVENT_STA_GOT_IP:
     FluoTube.debugln("Connected to :" + String(WiFi.SSID()));
     FluoTube.debug("Got IP: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    FluoTube.debugln( WiFi.localIP().toString() );
     break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
     FluoTube.debugln("Disconnected from station, attempting reconnection");
@@ -81,7 +81,7 @@ void setup(){
 
   FluoTube.setup();
 
-  WiFi.onEvent(WiFiEvent);
+  WiFi.onEvent(WiFiEvents);
   WiFi.mode(WIFI_MODE_STA);
 
   FluoTube.debugln("Starting WPS");

@@ -52,7 +52,7 @@ void setup()
     FluoTube.debugln("");
     FluoTube.debugln("WiFi connected");
     FluoTube.debugln("IP address: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    FluoTube.debugln( WiFi.localIP().toString() );
     
     server.begin();
 
@@ -82,8 +82,8 @@ void loop(){
             client.println();
 
             // the content of the HTTP response follows the header:
-            client.print("Click <a href=\"/H\">here</a> to turn the LED on pin 5 on.<br>");
-            client.print("Click <a href=\"/L\">here</a> to turn the LED on pin 5 off.<br>");
+            client.print("Click <a href=\"/H\">here</a> to turn the LED on pin 13 on.<br>");
+            client.print("Click <a href=\"/L\">here</a> to turn the LED on pin 13 off.<br>");
 
             // The HTTP response ends with another blank line:
             client.println();

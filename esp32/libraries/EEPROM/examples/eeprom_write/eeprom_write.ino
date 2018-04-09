@@ -34,7 +34,7 @@ void setup()
     FluoTube.debug(" ");
   }
 
-  FluoTube.debugln();
+  FluoTube.debugln("");
   FluoTube.debugln("writing random n in memory");
 }
 
@@ -59,7 +59,7 @@ void loop()
   addr = addr + 1;
   if (addr == EEPROM_SIZE)
   {
-    FluoTube.debugln();
+    FluoTube.debugln("");
     addr = 0;
     EEPROM.commit();
 
@@ -72,7 +72,7 @@ void loop()
       FluoTube.debug(" ");
     }
 
-    FluoTube.debugln(); 
+    FluoTube.debugln(""); 
     FluoTube.debugln("----------------------------------");
   }
 

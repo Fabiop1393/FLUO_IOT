@@ -2,14 +2,14 @@
 #include "SPIFFS.h"
 #include <Fluotube.h>
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels);
-void createDir(fs::FS &fs, const char * path);
-void removeDir(fs::FS &fs, const char * path);
-void readFile(fs::FS &fs, const char * path);
-void writeFile(fs::FS &fs, const char * path, const char * message);
-void appendFile(fs::FS &fs, const char * path, const char * message);
-void renameFile(fs::FS &fs, const char * path1, const char * path2);
-void deleteFile(fs::FS &fs, const char * path);
+void listDire(fs::FS &fs, const char * dirname, uint8_t levels);
+void createDire(fs::FS &fs, const char * path);
+void removeDire(fs::FS &fs, const char * path);
+void readFil(fs::FS &fs, const char * path);
+void writFile(fs::FS &fs, const char * path, const char * message);
+void appenFile(fs::FS &fs, const char * path, const char * message);
+void renamFile(fs::FS &fs, const char * path1, const char * path2);
+void deletFile(fs::FS &fs, const char * path);
 
 void setup(){
     FluoTube.setup();
@@ -18,15 +18,15 @@ void setup(){
         FluoTube.debugln("SPIFFS Mount Failed");
         return;
     }
-    
-    listDir(SPIFFS, "/", 0);
-    writeFile(SPIFFS, "/hello.txt", "Hello ");
-    appendFile(SPIFFS, "/hello.txt", "World!\n");
-    readFile(SPIFFS, "/hello.txt");
-    deleteFile(SPIFFS, "/foo.txt");
-    renameFile(SPIFFS, "/hello.txt", "/foo.txt");
-    readFile(SPIFFS, "/foo.txt");
-    testFileIO(SPIFFS, "/test.txt");
+    FluoTube.debugln("Start test spiffs");
+    listDire(SPIFFS, "/", 0);
+    writFile(SPIFFS, "/hello.txt", "Hello ");
+    appenFile(SPIFFS, "/hello.txt", "World!\n");
+    readFil(SPIFFS, "/hello.txt");
+    deletFile(SPIFFS, "/foo.txt");
+    renamFile(SPIFFS, "/hello.txt", "/foo.txt");
+    readFil(SPIFFS, "/foo.txt");
+    testFilIO(SPIFFS, "/test.txt");
 }
 
 void loop(){
@@ -36,7 +36,7 @@ void loop(){
 
 
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
+void listDire(fs::FS &fs, const char * dirname, uint8_t levels){
     FluoTube.debugln("Listing directory: " + String(dirname) );
 
     File root = fs.open(dirname);
@@ -55,7 +55,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
             FluoTube.debug("  DIR : ");
             FluoTube.debugln( String(file.name()) );
             if(levels){
-                listDir(fs, file.name(), levels -1);
+                listDire(fs, file.name(), levels -1);
             }
         } else {
             FluoTube.debug("  FILE: ");
@@ -67,7 +67,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     }
 }
 
-void createDir(fs::FS &fs, const char * path){
+void createDire(fs::FS &fs, const char * path){
     FluoTube.debugln("Creating Dir: " + String(path) );
     if(fs.mkdir(path)){
         FluoTube.debugln("Dir created");
@@ -76,8 +76,8 @@ void createDir(fs::FS &fs, const char * path){
     }
 }
 
-void removeDir(fs::FS &fs, const char * path){
-    FluoTube.debugln("Removing Dir: %s\n", path);
+void removeDire(fs::FS &fs, const char * path){
+    FluoTube.debugln("Removing Dir: " + String(path));
     if(fs.rmdir(path)){
         FluoTube.debugln("Dir removed");
     } else {
@@ -85,7 +85,7 @@ void removeDir(fs::FS &fs, const char * path){
     }
 }
 
-void readFile(fs::FS &fs, const char * path){
+void readFil(fs::FS &fs, const char * path){
     FluoTube.debugln("Reading file: " + String(path) );
 
     File file = fs.open(path);
@@ -101,7 +101,7 @@ void readFile(fs::FS &fs, const char * path){
     file.close();
 }
 
-void writeFile(fs::FS &fs, const char * path, const char * message){
+void writFile(fs::FS &fs, const char * path, const char * message){
     FluoTube.debugln("Writing file: " + String(path) );
 
     File file = fs.open(path, FILE_WRITE);
@@ -117,7 +117,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     file.close();
 }
 
-void appendFile(fs::FS &fs, const char * path, const char * message){
+void appenFile(fs::FS &fs, const char * path, const char * message){
     FluoTube.debugln("Appending to file: " + String(path) );
 
     File file = fs.open(path, FILE_APPEND);
@@ -133,7 +133,7 @@ void appendFile(fs::FS &fs, const char * path, const char * message){
     file.close();
 }
 
-void renameFile(fs::FS &fs, const char * path1, const char * path2){
+void renamFile(fs::FS &fs, const char * path1, const char * path2){
     FluoTube.debugln("Renaming file from " + String(path1) + " to " + String(path2));
     if (fs.rename(path1, path2)) {
         FluoTube.debugln("File renamed");
@@ -142,7 +142,7 @@ void renameFile(fs::FS &fs, const char * path1, const char * path2){
     }
 }
 
-void deleteFile(fs::FS &fs, const char * path){
+void deletFile(fs::FS &fs, const char * path){
     FluoTube.debugln("Deleting file: " + String(path) );
     if(fs.remove(path)){
         FluoTube.debugln("File deleted");
@@ -151,7 +151,7 @@ void deleteFile(fs::FS &fs, const char * path){
     }
 }
 
-void testFileIO(fs::FS &fs, const char * path){
+void testFilIO(fs::FS &fs, const char * path){
     File file = fs.open(path);
     static uint8_t buf[512];
     size_t len = 0;

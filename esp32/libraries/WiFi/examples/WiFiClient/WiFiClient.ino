@@ -33,7 +33,7 @@ void setup()
     FluoTube.debugln("");
     FluoTube.debugln("WiFi connected");
     FluoTube.debugln("IP address: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    FluoTube.debugln( WiFi.localIP().toString() );
 }
 
 int value = 0;
@@ -84,7 +84,7 @@ void loop()
         FluoTube.debug( String(line) );
     }
 
-    FluoTube.debugln();
+    FluoTube.debugln("");
     FluoTube.debugln("closing connection");
 }
 

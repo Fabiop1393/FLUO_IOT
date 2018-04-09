@@ -12,7 +12,7 @@ WiFiUDP ntpClient;
 void wifiOnConnect(){
     FluoTube.debugln("STA Connected");
     FluoTube.debug("STA IPv4: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    FluoTube.debugln( WiFi.localIP().toString() );
     
     ntpClient.begin(2390);
 }
@@ -65,7 +65,7 @@ void wifiConnectedLoop(){
   delay(9000);
 }
 
-void WiFiEvent(WiFiEvent_t event){
+void WiFiEvents(WiFiEvent_t event){
     switch(event) {
 
         case SYSTEM_EVENT_AP_START:
@@ -86,9 +86,9 @@ void WiFiEvent(WiFiEvent_t event){
         case SYSTEM_EVENT_AP_STA_GOT_IP6:
             //both interfaces get the same event
             FluoTube.debug("STA IPv6: ");
-            FluoTube.debugln( String(WiFi.localIPv6()) );
+            FluoTube.debugln( WiFi.localIPv6().toString() );
             FluoTube.debug("AP IPv6: ");
-            FluoTube.debugln( String(WiFi.softAPIPv6()) );
+            FluoTube.debugln( WiFi.softAPIPv6().toString() );
             break;
         case SYSTEM_EVENT_STA_GOT_IP:
             wifiOnConnect();
@@ -108,7 +108,7 @@ void setup(){
     FluoTube.setup();
 
     WiFi.disconnect(true);
-    WiFi.onEvent(WiFiEvent);
+    WiFi.onEvent(WiFiEvents);
     WiFi.mode(WIFI_MODE_APSTA);
     WiFi.softAP(AP_SSID);
     WiFi.begin(STA_SSID, STA_PASS);

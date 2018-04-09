@@ -28,7 +28,7 @@ void setup()
     FluoTube.debugln("");
     FluoTube.debugln("WiFi connected");
     FluoTube.debugln("IP address: ");
-    FluoTube.debugln( String(WiFi.localIP()) );
+    FluoTube.debugln( WiFi.localIP().toString() );
 
     delay(500);
 }

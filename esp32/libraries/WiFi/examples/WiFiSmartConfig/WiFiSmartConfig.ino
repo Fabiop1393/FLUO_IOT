@@ -29,7 +29,7 @@ void setup() {
   FluoTube.debugln("WiFi Connected.");
 
   FluoTube.debug("IP Address: ");
-  FluoTube.debugln( String(WiFi.localIP()) );
+  FluoTube.debugln( WiFi.localIP().toString() );
 }
 
 void loop() {

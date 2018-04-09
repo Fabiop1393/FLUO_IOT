@@ -15,7 +15,7 @@ WebServer serverIoT(80);
 
 WebServer serverMANUAL(8080);
 WebSocketsServer webSocket(8888);
-WiFiServer server(80);
+WiFiServer serverWIFI(80);
 WiFiCallbackClass WiFiCallback;
 
 
@@ -235,7 +235,7 @@ void WiFiCallbackClass::APmode()
    delay(100);
 
    // Start TCP (HTTP) Server WiFi Configurator
-   server.begin();
+   serverWIFI.begin();
    Serial.println("[AP - WiFiCallback] TCP server started");
 
    //al reboot la nuova modalita' e' quella AP config
@@ -434,7 +434,7 @@ void AP_SettingMode()
 {
    
     // Check if a client has connected
-    WiFiClient client = server.available();
+    WiFiClient client = serverWIFI.available();
     if (!client) {
         return;
     }

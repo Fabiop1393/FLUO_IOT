@@ -75,7 +75,7 @@ void onButton(){
   delay(100);
 }
 
-void WiFiEvent(WiFiEvent_t event){
+void WiFiEvents(WiFiEvent_t event){
     switch(event) {
         case SYSTEM_EVENT_AP_START:
             FluoTube.debugln("AP Started");
@@ -94,11 +94,11 @@ void WiFiEvent(WiFiEvent_t event){
             break;
         case SYSTEM_EVENT_AP_STA_GOT_IP6:
             FluoTube.debug("STA IPv6: ");
-            FluoTube.debugln( String(WiFi.localIPv6()) );
+            FluoTube.debugln( WiFi.localIPv6().toString() );
             break;
         case SYSTEM_EVENT_STA_GOT_IP:
             FluoTube.debug("STA IPv4: ");
-            FluoTube.debugln( String(WiFi.localIP()) );
+            FluoTube.debugln( WiFi.localIP().toString() );
             break;
         case SYSTEM_EVENT_STA_DISCONNECTED:
             FluoTube.debugln("STA Disconnected");
@@ -116,7 +116,7 @@ void setup() {
 
     pinMode(BUTTON_APRST, INPUT_PULLUP);
 
-    WiFi.onEvent(WiFiEvent);
+    WiFi.onEvent(WiFiEvents);
     FluoTube.debug("ESP32 SDK: ");
     FluoTube.debugln( String(ESP.getSdkVersion()) );
     FluoTube.debugln("Press the button to select the next mode");
