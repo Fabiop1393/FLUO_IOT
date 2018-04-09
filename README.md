@@ -50,6 +50,6 @@ you need to program the AVR part with the following example sketch: FluoTube -> 
 In the next days the new ArduinoIDE FluoEdition will be available for download with the latest news.
 The following guide and our Wiki will be updated on the site, providing all the details of the functioning of the SW that runs on your FLUO WI-FI.
 
-
+[Fluo Guide](docs/FluoGuide.md)
 
 website:  fluotechnology.co.uk/
