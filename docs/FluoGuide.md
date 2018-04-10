@@ -117,3 +117,5 @@ List examples and libraries available for ESP side (ESP32):
 Instead it is not possible to use the classic examples and the generic Arduino libraries on Esp32.
 
 ![ExamplesRed](FluoExamplesPNG/FluoExaRed.png)
+
+**Guida per gestire gli headers della vostra Fluo board tramite l ESP32 : link -> Virtualxxx**
