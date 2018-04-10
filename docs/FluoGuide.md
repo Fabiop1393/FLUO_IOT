@@ -112,8 +112,8 @@ List examples and libraries available for ESP side (ESP32):
     - WiFiUDPClient
   * WiFiClientSecure/WiFiClientSecure
   
-![Examples](docs/FluoExa.png)
+![Examples](FluoExamplesPNG/FluoExa.png)
 
 Instead it is not possible to use the classic examples and the generic Arduino libraries on Esp32.
 
-![ExamplesRed](docs/FluoExaRed.png)
+![ExamplesRed](FluoExamplesPNG/FluoExaRed.png)
