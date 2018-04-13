@@ -11,7 +11,7 @@ void setup() {
 
   pinMode(13, OUTPUT);
   FluoTube.Begin();             
-  FluoTube.WiFi.Setting("Androidadry", "hellohello", "fluo"); //Set WiFi (ssid, passkey, hostname)
+  FluoTube.WiFi.Setting("AndroidFabio", "ciao4321", "fluo"); //Set WiFi (ssid, passkey, hostname)
   FluoTube.WiFi.ServerRest();   // enable Rest Server default port 8080
 
   t1 = millis();

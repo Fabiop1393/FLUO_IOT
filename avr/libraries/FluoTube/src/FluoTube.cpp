@@ -56,7 +56,7 @@ FluoTubeClass::FluoTubeClass()
 
 void FluoTubeClass::Begin()  //check if FluoTube is ready
 {
-    Serial.begin(115200); //remember right baud use
+    //Serial.begin(115200); //remember right baud use
     pinMode(esp32Interrupt, INPUT);
     pinMode(13, OUTPUT); // already set
   
