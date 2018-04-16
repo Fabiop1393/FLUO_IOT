@@ -17,6 +17,8 @@ SPIClass SPISDc(VSPI);
 void setup(){
    
     FluoTube.setup();
+    
+    SPISDc.begin(18,19,23);
 
     if(! SD.begin(SD_CS, SPISDc, 4000000, "/sd") ){
         FluoTube.debugln("Card Mount Failed");

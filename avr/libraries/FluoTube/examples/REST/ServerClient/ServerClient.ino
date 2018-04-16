@@ -1,51 +1,27 @@
-#include<FluoTube.h>             
+#include <FluoTube.h>             //include la libreria FluoTube
 
-unsigned long t1;
-unsigned long t2;
-int i = 0;
-int spam = 0;
+  void setup(){
+      Serial.begin(115200);         //abilita la seriale di debug che potrai utilizzare usando SerialMonitor di ArduinoIDE
+      Serial.println("AVR booting ...");
 
-void setup() {
-  Serial.begin(115200);         
-  Serial.println("AVR booting ...");
-
-  pinMode(13, OUTPUT);
-  FluoTube.Begin();             
-  FluoTube.WiFi.Setting("AndroidFabio", "ciao4321", "fluo"); //Set WiFi (ssid, passkey, hostname)
-  FluoTube.WiFi.ServerRest();   // enable Rest Server default port 8080
-
-  t1 = millis();
-}
-
-void loop() {
- 
-  FluoTube.Run();                 
-  if (FluoTube.WiFi.Available()) { 
-    Parser(FluoTube.WiFi.RestRead()); 
-    if(spam > 0){
-      t2 = millis();
-      if( (t2-t1) > 15000){        
-        FluoTube.sendMsgToESP("Hi, I'm AVR and I sent  "+ String(spam)+" messages");
-        spam++;
-        t1 = millis();
-      }
-    }
+      pinMode(13, OUTPUT);
+      FluoTube.Begin();             //inizializza la libreria FluoTube
     
+      FluoTube.WiFi.Setting("AndroidFabio", "ciao4321", "fluo"); //imposti credenziali WiFi a cui connettersi (ssid, passkey, hostname)
+      FluoTube.WiFi.ServerRest();   //Abilita un server REST sulla porta 8080
   }
-  
-}
-void Parser(String data) {            
-  if (data == "/l13on") {             
-    digitalWrite(13, HIGH);
-    FluoTube.sendMsgToESP("Led 13 ON");
-    spam = 1;
-  } if (data == "/l13off") {
-    digitalWrite(13, LOW);
-    FluoTube.sendMsgToESP("Led 13 OFF");
-    spam = 1;
-  } if (data == "ADRR") {
-    Serial.println("Inviare Richieste Rest all'indirizzo: ");  
-    Serial.println(FluoTube.WiFi.Info());
-    spam = 1; 
+
+  void loop(){
+    FluoTube.Run();                 // Manda in esecuzione la libreria
+    if(FluoTube.WiFi.Available())  //se soddisfatta la board ha un indirizzo IP valido assegnato (Si può vedere che è connessa dai led)
+      Parser(FluoTube.WiFi.RestRead()); //la funzione RestRead() restituisce la stringa che è stata inviata dal client
   }
-}
+  void Parser(String data){
+    if(data == "/l13on"){
+      digitalWrite(13, HIGH); 
+    }if(data == "/l13off"){
+      digitalWrite(13,LOW);  
+    }if(data == "ADRR"){
+      Serial.println("Inviare Richieste Rest all'indirizzo: "+FluoTube.WiFi.Info());  
+    }
+  }

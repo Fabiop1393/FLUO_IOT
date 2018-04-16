@@ -106,12 +106,7 @@ void WebSetup(void)
     WiFi.onEvent(WiFiEvent); // start
 
     delay(2000);
-    //handle Manual mode
-    if (VirtualUseCase() == 1)
-    {
-        ActivateManualMode();
-        return;
-    }
+  
     // read configuration from EEPROM and save it on RAM -> settings
     loadStruct(&settings, sizeof(settings));
     ReadSetting(&settings); //dbg
