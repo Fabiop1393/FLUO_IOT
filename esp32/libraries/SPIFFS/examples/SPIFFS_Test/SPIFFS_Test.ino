@@ -12,9 +12,9 @@ void renamFile(fs::FS &fs, const char * path1, const char * path2);
 void deletFile(fs::FS &fs, const char * path);
 
 void setup(){
-    FluoTube.setup();
+    FluoTube.setup(true);
 
-    if(!SPIFFS.begin()){
+    if(!SPIFFS.begin(true)){
         FluoTube.debugln("SPIFFS Mount Failed");
         return;
     }

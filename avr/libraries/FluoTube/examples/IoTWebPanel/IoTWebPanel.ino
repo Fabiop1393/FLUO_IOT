@@ -8,5 +8,4 @@ void loop() {
   FluoTube.Run();
 
   delay(1000);
-  Serial.println("ciao\r\n");
 }
